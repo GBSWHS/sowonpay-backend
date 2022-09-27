@@ -1,4 +1,4 @@
-import { Booths } from 'src/auth/entity/Booths'
+import { Booths } from 'src/booths/entity/Booths'
 import { Users } from 'src/auth/entity/Users'
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 
