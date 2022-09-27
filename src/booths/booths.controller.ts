@@ -1,6 +1,6 @@
-import { Get, Controller } from '@nestjs/common'
+import { Controller, MessageEvent, Sse } from '@nestjs/common'
+import { concatMap, interval, Observable } from 'rxjs'
 import { BoothService } from './booths.service'
-import { GetRankResposeDto } from './dto/GetRankResponse.dto'
 
 @Controller('booths')
 export class BoothController {
@@ -8,13 +8,11 @@ export class BoothController {
     private readonly boothService: BoothService
   ) {}
 
-  @Get('@rank')
-  public async getRank (): Promise<GetRankResposeDto> {
-    const data = await this.boothService.getRank()
-
-    return {
-      success: true,
-      data
-    }
+  @Sse('@rank')
+  public getRank (): Observable<MessageEvent> {
+    return interval(1000)
+      .pipe(concatMap(async () => ({
+        data: await this.boothService.getRank()
+      })))
   }
 }

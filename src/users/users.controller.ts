@@ -1,4 +1,4 @@
-import { Get, Res, UseGuards, Body, Controller, NotFoundException, Post } from '@nestjs/common'
+import { Get, Res, UseGuards, Body, Controller, NotFoundException, Post, Sse, MessageEvent } from '@nestjs/common'
 import { Response } from 'express'
 import { UserGuard } from './users.guard'
 import { UserService } from './users.service'
@@ -7,6 +7,8 @@ import { ConfirmPhoneVerifyResponseDto } from './dto/ConfirmPhoneVerifyResponse.
 import { CreatePhoneVerifyDto } from './dto/CreatePhoneVerify.dto'
 import { CreatePhoneVerifyResposeDto } from './dto/CreatePhoneVerifyResponse.dto'
 import { Users } from './entity/Users'
+import { concatMap, interval, Observable } from 'rxjs'
+import { GetUserResponseDto } from './dto/GetUserResponse.dto'
 
 @Controller('users')
 export class UserController {
@@ -54,5 +56,21 @@ export class UserController {
       success: true,
       token
     }
+  }
+
+  @Get('@me')
+  public getUser (@Res({ passthrough: true }) res: Response): GetUserResponseDto {
+    return {
+      success: true,
+      data: res.locals.user
+    }
+  }
+
+  @Sse('@me')
+  public getUserLive (@Res({ passthrough: true }) res: Response): Observable<MessageEvent> {
+    return interval(1000)
+      .pipe(concatMap(async () => ({
+        data: await this.userService.getUser(res.locals.user.id)
+      })))
   }
 }

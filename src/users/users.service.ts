@@ -1,4 +1,4 @@
-import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common'
+import { CACHE_MANAGER, Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Cache } from 'cache-manager'
 import { Repository } from 'typeorm'
@@ -40,6 +40,26 @@ export class UserService {
   public async verifyVerification (user: Users, providedKey: string): Promise<boolean> {
     const verifyKey = await this.cacheManager.get<string>(user.id.toString())
     return verifyKey === providedKey
+  }
+
+  public async getUser (id: number, detail = false): Promise<Users> {
+    const user = await this.users.findOne({
+      where: { id },
+      select: {
+        id: true,
+        isAdmin: detail,
+        booths: detail,
+        phone: detail,
+        name: detail,
+        point: true
+      }
+    })
+
+    if (user === null) {
+      throw new NotFoundException('USER_NOT_FOUND')
+    }
+
+    return user
   }
 
   public async getUserByPhone (phone: string): Promise<Users | null> {
