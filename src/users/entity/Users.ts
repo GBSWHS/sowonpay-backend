@@ -42,7 +42,7 @@ export class Users {
   })
   public readonly isAdmin: boolean
 
-  @ManyToMany(() => Booths)
+  @ManyToMany(() => Booths, { eager: true })
   @JoinTable({
     name: 'users_booths',
     joinColumn: {
