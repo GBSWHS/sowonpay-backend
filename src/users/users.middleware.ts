@@ -9,19 +9,13 @@ export class UserMiddleware implements NestMiddleware {
   ) {}
 
   public use (req: Request, res: Response, next: NextFunction): void {
-    const { authorization } = req.headers
-    if (authorization === undefined) {
+    const { SESSION_TOKEN } = req.cookies
+    if (SESSION_TOKEN === undefined) {
       next()
       return
     }
 
-    const [type, token] = authorization.split(' ')
-    if (type !== 'Token') {
-      next()
-      return
-    }
-
-    const user = this.userService.resolveToken(token)
+    const user = this.userService.resolveToken(SESSION_TOKEN)
     if (user === null) {
       next()
       return
