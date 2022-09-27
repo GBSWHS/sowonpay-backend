@@ -28,7 +28,7 @@ export class UserService {
   }
 
   public async createVerification (user: Users): Promise<void> {
-    const verifyKey = randomBytes(3).toString('hex')
+    const verifyKey = randomBytes(3).toString('hex').toUpperCase()
     await this.cacheManager.set(user.id.toString(), verifyKey, { ttl: 60 })
     await this.aligo.sendMessages({
       msg: `[소원페이]\n${user.name}님의 휴대폰 인증 번호는 아래와 같습니다.\n\n"${verifyKey}"`,
