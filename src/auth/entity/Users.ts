@@ -43,6 +43,16 @@ export class Users {
   public readonly isAdmin: boolean
 
   @ManyToMany(() => Booths)
-  @JoinTable()
+  @JoinTable({
+    name: 'users_booths',
+    joinColumn: {
+      name: 'users_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'booths_id',
+      referencedColumnName: 'id'
+    }
+  })
   public readonly booths: Booths[]
 }

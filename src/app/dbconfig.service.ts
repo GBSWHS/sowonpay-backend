@@ -17,7 +17,7 @@ export class DBConfigService implements TypeOrmOptionsFactory {
       password: this.configService.get<string>('DB_PASSWD'),
       database: this.configService.get<string>('DB_SCHEMA', 'sowonpay'),
       autoLoadEntities: true,
-      synchronize: this.configService.get<boolean>('DB_SYNC', false)
+      synchronize: this.configService.get<string>('DB_SYNC') === 'true'
     }
   }
 }

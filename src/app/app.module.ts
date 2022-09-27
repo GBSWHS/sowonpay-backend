@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AuthMiddleware } from 'src/auth/auth.middleware'
 import { AuthModule } from 'src/auth/auth.module'
+import { TransactionModule } from 'src/transactions/transactions.module'
 import { DBConfigService } from './dbconfig.service'
 
 @Module({
@@ -12,7 +13,9 @@ import { DBConfigService } from './dbconfig.service'
       useClass: DBConfigService,
       inject: [ConfigService]
     }),
-    AuthModule
+    ConfigModule.forRoot(),
+    AuthModule,
+    TransactionModule
   ]
 })
 export class AppModule implements NestModule {
