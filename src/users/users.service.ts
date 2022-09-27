@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt'
 import { randomBytes } from 'crypto'
 
 @Injectable()
-export class AuthService {
+export class UserService {
   private readonly aligo: AligoClient
 
   constructor (

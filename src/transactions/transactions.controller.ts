@@ -1,6 +1,6 @@
 import { UseGuards, NotFoundException, Body, Res, Post, Controller } from '@nestjs/common'
 import { Response } from 'express'
-import { AuthGuard } from '../auth/auth.guard'
+import { UserGuard } from '../users/users.guard'
 import { CreateTransactionDto } from './dto/CreateTransaction.dto'
 import { CreateTransactionResponseDto } from './dto/CreateTransactionRespose.dto'
 import { TransactionService } from './transactions.service'
@@ -12,7 +12,7 @@ export class TransactionController {
   ) {}
 
   @Post()
-  @UseGuards(AuthGuard)
+  @UseGuards(UserGuard)
   public async createTransaction (
     @Body() body: CreateTransactionDto,
       @Res({ passthrough: true }) res: Response

@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Booths } from '../booths/entity/Booths'
-import { Users } from '../auth/entity/Users'
+import { Users } from '../users/entity/Users'
 import { Repository } from 'typeorm'
 import { Transactions } from './entity/Transactions'
 

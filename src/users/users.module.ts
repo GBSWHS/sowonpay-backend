@@ -2,8 +2,8 @@ import { CacheModule, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AuthController } from './auth.controller'
-import { AuthService } from './auth.service'
+import { UserController } from './users.controller'
+import { UserService } from './users.service'
 import { Booths } from '../booths/entity/Booths'
 import { Users } from './entity/Users'
 
@@ -20,8 +20,8 @@ import { Users } from './entity/Users'
       })
     })
   ],
-  controllers: [AuthController],
-  providers: [AuthService],
-  exports: [AuthService]
+  controllers: [UserController],
+  providers: [UserService],
+  exports: [UserService]
 })
-export class AuthModule {}
+export class UserModule {}

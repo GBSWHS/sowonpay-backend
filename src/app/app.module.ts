@@ -1,8 +1,8 @@
 import { MiddlewareConsumer, NestModule, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AuthMiddleware } from '../auth/auth.middleware'
-import { AuthModule } from '../auth/auth.module'
+import { UserMiddleware } from '../users/users.middleware'
+import { UserModule } from '../users/users.module'
 import { BoothModule } from '../booths/booths.module'
 import { TransactionModule } from '../transactions/transactions.module'
 import { DBConfigService } from './dbconfig.service'
@@ -15,7 +15,7 @@ import { DBConfigService } from './dbconfig.service'
       inject: [ConfigService]
     }),
     ConfigModule.forRoot(),
-    AuthModule,
+    UserModule,
     TransactionModule,
     BoothModule
   ]
@@ -23,7 +23,7 @@ import { DBConfigService } from './dbconfig.service'
 export class AppModule implements NestModule {
   public configure (consumer: MiddlewareConsumer): void {
     consumer
-      .apply(AuthMiddleware)
+      .apply(UserMiddleware)
       .forRoutes('*')
   }
 }
