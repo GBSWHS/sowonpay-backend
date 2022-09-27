@@ -4,6 +4,7 @@ import { Booths } from '../booths/entity/Booths'
 import { Users } from '../auth/entity/Users'
 import { Transactions } from './entity/Transactions'
 import { TransactionService } from './transactions.service'
+import { TransactionController } from './transactions.controller'
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { TransactionService } from './transactions.service'
       Users
     ])
   ],
-  providers: [TransactionService]
+  providers: [TransactionService],
+  controllers: [TransactionController]
 })
 export class TransactionModule {}
