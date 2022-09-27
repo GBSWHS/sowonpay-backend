@@ -8,7 +8,6 @@ import { CreatePhoneVerifyDto } from './dto/CreatePhoneVerify.dto'
 import { CreatePhoneVerifyResposeDto } from './dto/CreatePhoneVerifyResponse.dto'
 import { Users } from './entity/Users'
 import { concatMap, interval, Observable } from 'rxjs'
-import { GetUserResponseDto } from './dto/GetUserResponse.dto'
 
 @Controller('users')
 export class UserController {
@@ -58,15 +57,7 @@ export class UserController {
     }
   }
 
-  @Get('@me')
-  public getUser (@Res({ passthrough: true }) res: Response): GetUserResponseDto {
-    return {
-      success: true,
-      data: res.locals.user
-    }
-  }
-
-  @Sse('@me')
+  @Sse('@live')
   public getUserLive (@Res({ passthrough: true }) res: Response): Observable<MessageEvent> {
     return interval(1000)
       .pipe(concatMap(async () => ({
