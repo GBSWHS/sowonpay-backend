@@ -1,6 +1,6 @@
 import { UseGuards, NotFoundException, Body, Res, Post, Controller } from '@nestjs/common'
 import { Response } from 'express'
-import { AuthGuard } from 'src/auth/auth.guard'
+import { AuthGuard } from '../auth/auth.guard'
 import { CreateTransactionDto } from './dto/CreateTransaction.dto'
 import { CreateTransactionResponseDto } from './dto/CreateTransactionRespose.dto'
 import { TransactionService } from './transactions.service'

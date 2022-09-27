@@ -1,10 +1,10 @@
 import { MiddlewareConsumer, NestModule, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { AuthMiddleware } from 'src/auth/auth.middleware'
-import { AuthModule } from 'src/auth/auth.module'
-import { BoothModule } from 'src/booths/booths.module'
-import { TransactionModule } from 'src/transactions/transactions.module'
+import { AuthMiddleware } from '../auth/auth.middleware'
+import { AuthModule } from '../auth/auth.module'
+import { BoothModule } from '../booths/booths.module'
+import { TransactionModule } from '../transactions/transactions.module'
 import { DBConfigService } from './dbconfig.service'
 
 @Module({

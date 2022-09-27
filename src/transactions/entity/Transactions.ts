@@ -1,5 +1,5 @@
-import { Booths } from 'src/booths/entity/Booths'
-import { Users } from 'src/auth/entity/Users'
+import { Booths } from '../../booths/entity/Booths'
+import { Users } from '../../auth/entity/Users'
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('transactions')
