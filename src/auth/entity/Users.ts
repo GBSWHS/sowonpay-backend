@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Booths } from './Booths'
 
 @Entity('users')
 export class Users {
@@ -21,7 +22,8 @@ export class Users {
     name: 'users_phone',
     type: 'char',
     length: 11,
-    nullable: false
+    nullable: false,
+    unique: true
   })
   public readonly phone: string
 
@@ -39,4 +41,8 @@ export class Users {
     default: false
   })
   public readonly isAdmin: boolean
+
+  @ManyToMany(() => Booths)
+  @JoinTable()
+  public readonly booths: Booths[]
 }
