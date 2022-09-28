@@ -1,6 +1,6 @@
 import { Booths } from '../../booths/entity/Booths'
 import { Users } from '../../users/entity/Users'
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('transactions')
 export class Transactions {
@@ -22,7 +22,6 @@ export class Transactions {
   @Column({
     name: 'users_id_sent',
     type: 'int',
-    unique: false,
     unsigned: true
   })
   public readonly sentUserId: number
@@ -30,17 +29,16 @@ export class Transactions {
   @Column({
     name: 'users_id_received',
     type: 'int',
-    unique: false,
     unsigned: true,
     nullable: false
   })
   public readonly receivedUserId: number
 
-  @OneToOne(() => Users, { eager: true })
+  @ManyToOne(() => Users, { eager: true })
   @JoinColumn({ referencedColumnName: 'id', name: 'users_id_sent' })
   public readonly sentUser: Users
 
-  @OneToOne(() => Users, { eager: true })
+  @ManyToOne(() => Users, { eager: true })
   @JoinColumn({ referencedColumnName: 'id', name: 'users_id_received' })
   public readonly receivedUser: Users
 
@@ -48,12 +46,11 @@ export class Transactions {
     name: 'booths_id',
     type: 'int',
     unsigned: true,
-    nullable: true,
-    unique: false
+    nullable: true
   })
   public readonly boothId?: number
 
-  @OneToOne(() => Booths, { eager: true })
+  @ManyToOne(() => Booths, { eager: true })
   @JoinColumn({ referencedColumnName: 'id', name: 'booths_id' })
   public readonly booth?: Booths
 
