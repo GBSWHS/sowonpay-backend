@@ -46,21 +46,23 @@ export class TransactionService {
       throw new ForbiddenException('USER_NOT_ALLOW_TO_GENERATE')
     }
 
-    if (!isGenerate) {
-      if (option.sender.point < option.amount) {
-        throw new BadRequestException('USER_BALANCE_TOO_LOW')
-      }
-
-      await this.booths.increment({
-        id: option.booth?.id
-      }, 'point', option.amount)
+    if (isGenerate) {
       await this.users.increment({
-        id: option.sender.id
-      }, 'point', -option.amount)
+        id: option.receiver.id
+      }, 'point', option.amount)
+      return
     }
 
-    await this.users.increment({
-      id: option.receiver.id
+    if (option.sender.point < option.amount) {
+      throw new BadRequestException('USER_BALANCE_TOO_LOW')
+    }
+
+    await this.booths.increment({
+      id: option.booth?.id
     }, 'point', option.amount)
+
+    await this.users.increment({
+      id: option.sender.id
+    }, 'point', -option.amount)
   }
 }
