@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common'
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Booths } from '../booths/entity/Booths'
 import { Users } from '../users/entity/Users'
@@ -47,6 +47,10 @@ export class TransactionService {
     }
 
     if (!isGenerate) {
+      if (option.sender.point < option.amount) {
+        throw new BadRequestException('USER_BALANCE_TOO_LOW')
+      }
+
       await this.booths.increment({
         id: option.booth?.id
       }, 'point', option.amount)
