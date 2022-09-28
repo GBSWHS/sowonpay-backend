@@ -42,8 +42,8 @@ export class TransactionController {
 
     await this.transactionService.sendOrGenerate({
       amount: body.amount,
-      receiver,
-      sender: res.locals.user,
+      receiver: res.locals.user,
+      sender: receiver,
       booth
     })
 
