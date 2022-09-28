@@ -4,12 +4,10 @@ import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'ty
 
 @Entity('transactions')
 export class Transactions {
-  @PrimaryGeneratedColumn('increment', {
-    type: 'int',
-    unsigned: true,
+  @PrimaryGeneratedColumn('uuid', {
     name: 'transactions_id'
   })
-  public readonly id: number
+  public readonly id: string
 
   @Column({
     type: 'int',
