@@ -4,8 +4,10 @@ import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'ty
 
 @Entity('transactions')
 export class Transactions {
-  @PrimaryGeneratedColumn('uuid', {
-    name: 'transactions_id'
+  @PrimaryGeneratedColumn('increment', {
+    name: 'transactions_id',
+    unsigned: true,
+    type: 'int'
   })
   public readonly id: string
 
@@ -20,6 +22,7 @@ export class Transactions {
   @Column({
     name: 'users_id_sent',
     type: 'int',
+    unique: false,
     unsigned: true
   })
   public readonly sentUserId: number
@@ -27,6 +30,7 @@ export class Transactions {
   @Column({
     name: 'users_id_received',
     type: 'int',
+    unique: false,
     unsigned: true,
     nullable: false
   })
@@ -44,7 +48,8 @@ export class Transactions {
     name: 'booths_id',
     type: 'int',
     unsigned: true,
-    nullable: true
+    nullable: true,
+    unique: false
   })
   public readonly boothId?: number
 
