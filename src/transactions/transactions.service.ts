@@ -40,7 +40,7 @@ export class TransactionService {
     })
 
     const isGenerate = option.booth === undefined
-    const isForbidden = !isGenerate || option.sender.isAdmin
+    const isForbidden = isGenerate && !option.sender.isAdmin
 
     if (isForbidden) {
       throw new ForbiddenException('USER_NOT_ALLOW_TO_GENERATE')
