@@ -32,7 +32,6 @@ export class TransactionService {
   }
 
   public async sendOrGenerate (option: SendOption): Promise<void> {
-    console.log(option)
     await this.transactions.insert({
       ...((option.booth !== undefined) ? { boothId: option.booth.id } : {}),
       sentUserId: option.sender.id,

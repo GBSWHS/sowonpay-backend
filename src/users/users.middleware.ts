@@ -8,14 +8,14 @@ export class UserMiddleware implements NestMiddleware {
     private readonly userService: UserService
   ) {}
 
-  public use (req: Request, res: Response, next: NextFunction): void {
+  public async use (req: Request, res: Response, next: NextFunction): Promise<void> {
     const { SESSION_TOKEN } = req.cookies
     if (SESSION_TOKEN === undefined) {
       next()
       return
     }
 
-    const user = this.userService.resolveToken(SESSION_TOKEN)
+    const user = await this.userService.resolveToken(SESSION_TOKEN)
     if (user === null) {
       next()
       return
