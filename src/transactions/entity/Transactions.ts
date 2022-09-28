@@ -4,7 +4,7 @@ import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'ty
 
 @Entity('transactions')
 export class Transactions {
-  @PrimaryGeneratedColumn({
+  @PrimaryGeneratedColumn('increment', {
     type: 'int',
     unsigned: true,
     name: 'transactions_id'
