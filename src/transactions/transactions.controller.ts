@@ -26,8 +26,8 @@ export class TransactionController {
   @Sse('@sse-qr')
   @UseGuards(UserGuard)
   public createQRSSE (@Res({ passthrough: true }) res: Response): QRSseEvent {
-    void this.transactionService.startQrSseProvider(res.locals.users.id)
-    return this.qrSseService.subscribe(res.locals.users.id)
+    void this.transactionService.startQrSseProvider(res.locals.user.id)
+    return this.qrSseService.subscribe(res.locals.user.id)
   }
 
   @Post()

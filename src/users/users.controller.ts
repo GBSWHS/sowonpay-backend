@@ -61,6 +61,6 @@ export class UserController {
   @Sse('@sse-point')
   @UseGuards(UserGuard)
   public createPointSSE (@Res({ passthrough: true }) res: Response): PointSseEvent {
-    return this.pointSseService.subscribe('USER', res.locals.users.id)
+    return this.pointSseService.subscribe('USER', res.locals.user.id)
   }
 }
