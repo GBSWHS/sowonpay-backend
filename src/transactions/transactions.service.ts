@@ -8,6 +8,8 @@ import { PointSseService } from './sse/PointSse.service'
 import { Cache } from 'cache-manager'
 import { randomBytes } from 'crypto'
 import { QRSseService } from './sse/QRSse.service'
+import { Client as AligoClient } from 'aligo-smartsms'
+import { ConfigService } from '@nestjs/config'
 
 interface SendOption {
   sender: Users
@@ -19,6 +21,8 @@ interface SendOption {
 
 @Injectable()
 export class TransactionService {
+  private readonly aligo: AligoClient
+
   constructor (
     @InjectRepository(Transactions)
     private readonly transactions: Repository<Transactions>,
@@ -28,9 +32,16 @@ export class TransactionService {
     private readonly booths: Repository<Booths>,
     private readonly pointSseService: PointSseService,
     private readonly qrSseService: QRSseService,
+    configService: ConfigService,
     @Inject(CACHE_MANAGER)
     private readonly cacheManger: Cache
-  ) {}
+  ) {
+    this.aligo = new AligoClient({
+      key: configService.get<string>('ALIGO_KEY', ''),
+      user_id: configService.get<string>('ALIGO_USER_ID', ''),
+      sender: configService.get<string>('ALIGO_SENDER', '')
+    })
+  }
 
   public async getUserViaQRKey (qrkey: string): Promise<Users | null> {
     const userId = await this.cacheManger.get<number>(`caches/qr/keys/${qrkey}`)
@@ -90,10 +101,16 @@ export class TransactionService {
     await this.users.increment({ id: option.sender.id }, 'point', -option.amount)
 
     const sender = await this.users.findOneByOrFail({ id: option.sender.id })
-    const booths = await this.users.findOneByOrFail({ id: option.booth?.id })
+    const booths = await this.booths.findOneByOrFail({ id: option.booth?.id })
 
     this.pointSseService.emit('USER', sender.id, { point: sender.point })
     this.pointSseService.emit('BOOTH', booths.id, { point: booths.id })
+
+    await this.aligo.sendMessages({
+      msg: `[소원페이]\n"${booths.name}" 부스에서 요금 "${option.amount}p"가 결제되었습니다.\n\n* 부정 결제시 즉시 신고`,
+      msg_type: 'SMS',
+      receiver: sender.phone
+    })
   }
 
   private async createQRToken (userId: number): Promise<string> {

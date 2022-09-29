@@ -7,6 +7,7 @@ import { TransactionService } from './transactions.service'
 import { TransactionController } from './transactions.controller'
 import { PointSseService } from './sse/PointSse.service'
 import { QRSseService } from './sse/QRSse.service'
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { QRSseService } from './sse/QRSse.service'
       Booths,
       Users
     ]),
-    CacheModule.register()
+    CacheModule.register(),
+    ConfigModule
   ],
   providers: [
     PointSseService,
