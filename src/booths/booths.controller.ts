@@ -20,7 +20,7 @@ export class BoothController {
 
   @Sse('@rank')
   public getRank (): Observable<MessageEvent> {
-    return interval(10 * 60 * 1000)
+    return interval(10 * 1000)
       .pipe(concatMap(async () => ({
         data: await this.boothService.getRank()
       })))
