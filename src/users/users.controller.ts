@@ -1,4 +1,4 @@
-import { Get, Res, UseGuards, Body, Controller, NotFoundException, Post, Sse, MessageEvent } from '@nestjs/common'
+import { Get, Res, UseGuards, Body, Controller, NotFoundException, Post, Sse } from '@nestjs/common'
 import { Response } from 'express'
 import { UserGuard } from './users.guard'
 import { UserService } from './users.service'
@@ -7,12 +7,13 @@ import { ConfirmPhoneVerifyResponseDto } from './dto/ConfirmPhoneVerifyResponse.
 import { CreatePhoneVerifyDto } from './dto/CreatePhoneVerify.dto'
 import { CreatePhoneVerifyResposeDto } from './dto/CreatePhoneVerifyResponse.dto'
 import { Users } from './entity/Users'
-import { concatMap, interval, Observable } from 'rxjs'
+import { PointSseEvent, PointSseService } from 'src/transactions/sse/PointSse.service'
 
 @Controller('users')
 export class UserController {
   constructor (
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly pointSseService: PointSseService
   ) {}
 
   @Get('/@me')
@@ -57,11 +58,9 @@ export class UserController {
     }
   }
 
-  @Sse('@live')
-  public getUserLive (@Res({ passthrough: true }) res: Response): Observable<MessageEvent> {
-    return interval(1000)
-      .pipe(concatMap(async () => ({
-        data: await this.userService.getUser(res.locals.user.id)
-      })))
+  @Sse('@sse-point')
+  @UseGuards(UserGuard)
+  public createPointSSE (@Res({ passthrough: true }) res: Response): PointSseEvent {
+    return this.pointSseService.subscribe('USER', res.locals.users.id)
   }
 }

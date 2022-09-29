@@ -29,7 +29,7 @@ export class UserService {
 
   public async createVerification (user: Users): Promise<void> {
     const verifyKey = randomBytes(3).toString('hex').toUpperCase()
-    await this.cacheManager.set(user.id.toString(), verifyKey, { ttl: 60 })
+    await this.cacheManager.set(`caches/verify/${user.id}`, verifyKey, { ttl: 60 })
     await this.aligo.sendMessages({
       msg: `[소원페이]\n${user.name}님의 휴대폰 인증 번호는 아래와 같습니다.\n\n"${verifyKey}"`,
       msg_type: 'SMS',
@@ -38,7 +38,7 @@ export class UserService {
   }
 
   public async verifyVerification (user: Users, providedKey: string): Promise<boolean> {
-    const verifyKey = await this.cacheManager.get<string>(user.id.toString())
+    const verifyKey = await this.cacheManager.get<string>(`caches/verify/${user.id}`)
     return verifyKey === providedKey
   }
 

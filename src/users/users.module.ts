@@ -6,6 +6,7 @@ import { UserController } from './users.controller'
 import { UserService } from './users.service'
 import { Booths } from '../booths/entity/Booths'
 import { Users } from './entity/Users'
+import { TransactionModule } from 'src/transactions/transactions.module'
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { Users } from './entity/Users'
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_TOKEN', 'youshallnotpass')
       })
-    })
+    }),
+    TransactionModule
   ],
   controllers: [UserController],
   providers: [UserService],

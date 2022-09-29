@@ -1,4 +1,4 @@
-import { IsInt, IsNumber, IsOptional, IsPositive } from 'class-validator'
+import { IsHexadecimal, IsInt, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator'
 
 export class CreateTransactionDto {
   @IsNumber()
@@ -16,4 +16,8 @@ export class CreateTransactionDto {
   @IsPositive()
   @IsInt()
   public readonly amount: number
+
+  @IsString()
+  @IsHexadecimal()
+  public readonly qrkey: string
 }
