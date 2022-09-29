@@ -6,7 +6,7 @@ import { UserController } from './users.controller'
 import { UserService } from './users.service'
 import { Booths } from '../booths/entity/Booths'
 import { Users } from './entity/Users'
-import { TransactionModule } from 'src/transactions/transactions.module'
+import { TransactionModule } from '../transactions/transactions.module'
 
 @Module({
   imports: [

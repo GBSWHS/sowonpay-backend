@@ -7,7 +7,7 @@ import { ConfirmPhoneVerifyResponseDto } from './dto/ConfirmPhoneVerifyResponse.
 import { CreatePhoneVerifyDto } from './dto/CreatePhoneVerify.dto'
 import { CreatePhoneVerifyResposeDto } from './dto/CreatePhoneVerifyResponse.dto'
 import { Users } from './entity/Users'
-import { PointSseEvent, PointSseService } from 'src/transactions/sse/PointSse.service'
+import { PointSseEvent, PointSseService } from '../transactions/sse/PointSse.service'
 
 @Controller('users')
 export class UserController {

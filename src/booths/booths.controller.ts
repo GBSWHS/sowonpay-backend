@@ -1,8 +1,8 @@
 import { Controller, MessageEvent, Res, Sse, UseGuards } from '@nestjs/common'
 import { Response } from 'express'
 import { concatMap, interval, Observable } from 'rxjs'
-import { PointSseEvent, PointSseService } from 'src/transactions/sse/PointSse.service'
-import { UserGuard } from 'src/users/users.guard'
+import { PointSseEvent, PointSseService } from '../transactions/sse/PointSse.service'
+import { UserGuard } from '../users/users.guard'
 import { BoothService } from './booths.service'
 
 @Controller('booths')
