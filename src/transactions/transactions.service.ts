@@ -116,8 +116,8 @@ export class TransactionService {
       this.qrSseService.emit(userId, { qrcode: nextToken })
     }
 
+    void fn()
     if (previous === undefined) {
-      void fn()
       setInterval(() => {
         void fn()
       }, 30 * 1000)
