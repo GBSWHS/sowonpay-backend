@@ -67,7 +67,7 @@ export class TransactionService {
 
     if (isGenerate) {
       const qrkey = await this.cacheManger.get<string>(`caches/qr/${option.receiver.id}`)
-      if (qrkey === undefined || qrkey !== option.qrkey) {
+      if (qrkey === undefined || !qrkey.split(' ').includes(option.qrkey)) {
         throw new ForbiddenException('QR_TOKEN_INVALID')
       }
 
@@ -78,7 +78,7 @@ export class TransactionService {
     }
 
     const qrkey = await this.cacheManger.get<string>(`caches/qr/${option.sender.id}`)
-    if (qrkey === undefined || qrkey !== option.qrkey) {
+    if (qrkey === undefined || !qrkey.split(' ').includes(option.qrkey)) {
       throw new ForbiddenException('QR_TOKEN_INVALID')
     }
 
@@ -97,7 +97,7 @@ export class TransactionService {
   }
 
   private async createQRToken (userId: number): Promise<string> {
-    const previous = await this.cacheManger.get<string>(`caches/qr/${userId}`) ?? ''
+    const previous = await this.cacheManger.get<string>(`caches/qr/${userId}`) ?? Math.random().toString()
     const next = randomBytes(10).toString('hex').toUpperCase()
     if (previous.length > 0) {
       await this.cacheManger.del(`caches/qr/keys/${previous.split(' ')[0]}`)
