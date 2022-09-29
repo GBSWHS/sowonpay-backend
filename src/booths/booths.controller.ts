@@ -1,5 +1,4 @@
-import { Controller, MessageEvent, Res, Sse, UseGuards } from '@nestjs/common'
-import { Response } from 'express'
+import { Controller, MessageEvent, Param, Sse, UseGuards } from '@nestjs/common'
 import { concatMap, interval, Observable } from 'rxjs'
 import { PointSseEvent, PointSseService } from '../transactions/sse/PointSse.service'
 import { UserGuard } from '../users/users.guard'
@@ -12,10 +11,10 @@ export class BoothController {
     private readonly pointSseService: PointSseService
   ) {}
 
-  @Sse('@sse-point')
+  @Sse('/:id/@sse-point')
   @UseGuards(UserGuard)
-  public createPointSSE (@Res({ passthrough: true }) res: Response): PointSseEvent {
-    return this.pointSseService.subscribe('USER', res.locals.user.id)
+  public createPointSSE (@Param('id') id: string): PointSseEvent {
+    return this.pointSseService.subscribe('BOOTH', Number(id))
   }
 
   @Sse('@rank')
