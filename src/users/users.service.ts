@@ -28,8 +28,6 @@ export class UserService {
   }
 
   public async createVerification (user: Users): Promise<void> {
-    if (user.phone === '99912341234') return
-
     const verifyKey = randomBytes(3).toString('hex').toUpperCase()
     await this.cacheManager.set(`caches/verify/${user.id}`, verifyKey, { ttl: 60 })
     await this.aligo.sendMessages({
@@ -41,7 +39,7 @@ export class UserService {
 
   public async verifyVerification (user: Users, providedKey: string): Promise<boolean> {
     const verifyKey = await this.cacheManager.get<string>(`caches/verify/${user.id}`)
-    return verifyKey === providedKey || user.phone === '99912341234'
+    return verifyKey === providedKey
   }
 
   public async getUser (id: number, detail = false): Promise<Users> {
