@@ -6,6 +6,7 @@ import { UserModule } from '../users/users.module'
 import { BoothModule } from '../booths/booths.module'
 import { TransactionModule } from '../transactions/transactions.module'
 import { DBConfigService } from './dbconfig.service'
+import { MetricsModule } from 'src/metrics/metrics.module'
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { DBConfigService } from './dbconfig.service'
     ConfigModule.forRoot(),
     UserModule,
     TransactionModule,
-    BoothModule
+    BoothModule,
+    MetricsModule
   ]
 })
 export class AppModule implements NestModule {

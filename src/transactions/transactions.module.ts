@@ -8,6 +8,7 @@ import { TransactionController } from './transactions.controller'
 import { PointSseService } from './sse/PointSse.service'
 import { QRSseService } from './sse/QRSse.service'
 import { ConfigModule } from '@nestjs/config'
+import { MetricSseService } from '../metrics/sse/MetricSse.service'
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { ConfigModule } from '@nestjs/config'
   providers: [
     PointSseService,
     QRSseService,
-    TransactionService
+    TransactionService,
+    MetricSseService
   ],
   controllers: [TransactionController],
   exports: [PointSseService]
