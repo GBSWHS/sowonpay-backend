@@ -1,6 +1,6 @@
 import { Controller, Res, Sse, UseGuards } from '@nestjs/common'
 import { Response } from 'express'
-import { UserGuard } from 'src/users/users.guard'
+import { UserGuard } from '../users/users.guard'
 import { MetricSseEvent, MetricSseService } from './sse/MetricSse.service'
 
 @Controller('metrics')

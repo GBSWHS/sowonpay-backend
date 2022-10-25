@@ -6,7 +6,7 @@ import { UserModule } from '../users/users.module'
 import { BoothModule } from '../booths/booths.module'
 import { TransactionModule } from '../transactions/transactions.module'
 import { DBConfigService } from './dbconfig.service'
-import { MetricsModule } from 'src/metrics/metrics.module'
+import { MetricsModule } from '../metrics/metrics.module'
 
 @Module({
   imports: [
