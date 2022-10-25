@@ -9,7 +9,7 @@ import { PointSseService } from './sse/PointSse.service'
 import { QRSseService } from './sse/QRSse.service'
 import { ConfigModule } from '@nestjs/config'
 import { MetricSseService } from '../metrics/sse/MetricSse.service'
-import { MetricsModule } from 'src/metrics/metrics.module'
+import { MetricsModule } from '../metrics/metrics.module'
 
 @Module({
   imports: [

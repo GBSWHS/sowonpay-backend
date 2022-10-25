@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Booths } from 'src/booths/entity/Booths'
-import { Transactions } from 'src/transactions/entity/Transactions'
-import { Users } from 'src/users/entity/Users'
+import { Booths } from '../booths/entity/Booths'
+import { Transactions } from '../transactions/entity/Transactions'
+import { Users } from '../users/entity/Users'
 import { IsNull, Repository } from 'typeorm'
 
 export interface Metrics {

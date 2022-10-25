@@ -10,7 +10,7 @@ import { randomBytes } from 'crypto'
 import { QRSseService } from './sse/QRSse.service'
 import { Client as AligoClient } from 'aligo-smartsms'
 import { ConfigService } from '@nestjs/config'
-import { MetricSseService } from 'src/metrics/sse/MetricSse.service'
+import { MetricSseService } from '../metrics/sse/MetricSse.service'
 
 interface SendOption {
   sender: Users
