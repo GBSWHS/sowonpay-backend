@@ -10,6 +10,7 @@ import { randomBytes } from 'crypto'
 import { QRSseService } from './sse/QRSse.service'
 import { Client as AligoClient } from 'aligo-smartsms'
 import { ConfigService } from '@nestjs/config'
+import { MetricSseService } from 'src/metrics/sse/MetricSse.service'
 
 interface SendOption {
   sender: Users
@@ -34,7 +35,8 @@ export class TransactionService {
     private readonly qrSseService: QRSseService,
     configService: ConfigService,
     @Inject(CACHE_MANAGER)
-    private readonly cacheManger: Cache
+    private readonly cacheManger: Cache,
+    private readonly metricSseService: MetricSseService
   ) {
     this.aligo = new AligoClient({
       key: configService.get<string>('ALIGO_KEY', ''),
@@ -85,6 +87,7 @@ export class TransactionService {
       await this.users.increment({ id: option.receiver.id }, 'point', option.amount)
       const receiver = await this.users.findOneByOrFail({ id: option.receiver.id })
       this.pointSseService.emit('USER', receiver.id, { point: receiver.point })
+      this.metricSseService.emit({ receivedUser: receiver, point: option.amount, createdAt: new Date() })
       return
     }
 
@@ -105,6 +108,7 @@ export class TransactionService {
 
     this.pointSseService.emit('USER', sender.id, { point: sender.point })
     this.pointSseService.emit('BOOTH', booths.id, { point: booths.id })
+    this.metricSseService.emit({ sentUser: sender, booth: booths, point: option.amount, createdAt: new Date() })
 
     await this.aligo.sendMessages({
       msg: `[소원페이]\n"${booths.name}" 부스에서 요금 "${option.amount}p"가 결제되었습니다.\n\n* 부정 결제시 즉시 신고`,

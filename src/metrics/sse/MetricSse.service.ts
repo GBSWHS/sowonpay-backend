@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { EventEmitter } from 'events'
 import { fromEvent, Observable } from 'rxjs'
 
-export interface MetricSseData { point: number }
+export type MetricSseData = object
 export type MetricSseEvent = Observable<MetricSseData>
 
 @Injectable()

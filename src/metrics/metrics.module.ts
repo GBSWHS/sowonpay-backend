@@ -8,6 +8,7 @@ import { MetricSseService } from './sse/MetricSse.service'
   providers: [
     MetricsService,
     MetricSseService
-  ]
+  ],
+  exports: [MetricSseService]
 })
 export class MetricsModule {}
